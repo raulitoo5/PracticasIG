@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 #include "vertex.h"
 #include <stdlib.h>
+#include <string>
 
 
 const float AXIS_SIZE=5000;
@@ -44,6 +45,13 @@ void 	draw(_modo modo, float r, float g, float b, float grosor);
 /* asignación de colores */
 void 	colors_random();
 void 	colors_chess(float r1, float g1, float b1, float r2, float g2, float b2);
+void color_marron();
+void color_negro();
+void color_rojo();
+void color_azul();
+void color_amarillo();
+void color_verde();
+void color_azul_nube();
 
 
 vector<_vertex3i> caras;
@@ -61,8 +69,7 @@ vector<_vertex3f> colores_caras;
 class _cubo: public _triangulos3D
 {
 public:
-
-	_cubo(float tam=0.5);
+	_cubo(float tam=0.5, string color="negro");
 };
 
 
@@ -100,7 +107,7 @@ public:
        _rotacion();
        
 void  parametros(vector<_vertex3f> perfil, int num,  
-                 int tapa_in, int tapa_su, int tipo);
+                 int tapa_in, int tapa_su, int tipo, string color);
 };
 
 // tapa_in=0 sin tapa, tapa_in=1 con tapa
@@ -132,7 +139,7 @@ public:
 class _cilindro: public _rotacion
 {
 public:
-       _cilindro(float radio=1.0, float altura=2.0, int num=12, int tapa_in=1, int tapa_su=1);
+       _cilindro(float radio=1.0, float altura=2.0, int num=12, int tapa_in=1, int tapa_su=1, string color="negro");
 };
 
 //************************************************************************
@@ -142,7 +149,7 @@ public:
 class _cono: public _rotacion
 {
 public:
-       _cono(float radio=1.0, float altura=2.0, int num=12);
+       _cono(float radio=1.0, float altura=2.0, int num=12, string color="negro");
 };
 
 //************************************************************************
@@ -153,7 +160,7 @@ public:
 class _esfera: public _rotacion
 {
 public:
-       _esfera(float radio=1.0, int latitud=6, int longitud=6);
+       _esfera(float radio=1.0, int latitud=6, int longitud=6, string color="negro");
 };
 
 
@@ -276,48 +283,14 @@ _cabina cabina;
 _sustentacion sustentacion;
 };
 
+class _rectangulo: public _triangulos3D
+{
+	public:
 
-// Respaldo y asiento de la silla
-// class _respaldo: public _triangulos3D{
-// public:
-//        _respaldo();
-// void  draw(_modo modo, float r, float g, float b, float grosor);
-// void  draw_asiento(_modo modo, float r, float g, float b, float grosor);
-
-// float ancho;
-// float alto;
-// float fondo;
-
-// protected:
-// _cubo cubo;
-// };
-
-
-class _reposaBrazos: public _triangulos3D{
-public:
-       _reposaBrazos();
-
-void  draw(_modo modo, float r, float g, float b, float grosor);
-void  draw_palo(_modo modo, float r, float g, float b, float grosor);
-
-float radio;
-float caras;
-float alto;
-
-protected:
-_cilindro cilindro;
+	_rectangulo(float ancho=0.5, float al=0.5, float largo=1.5, string color="negro");
 };
 
-// class _silla: public _triangulos3D{
-// public:
-//        _silla();
-// void  draw(_modo modo, float r, float g, float b, float grosor);
 
-// protected:
-// _respaldo respaldo;
-// _respaldo asiento;
-// _reposaBrazos reposaBrazos;
-// };
 
 class _globo:_triangulos3D{
 public:
@@ -355,35 +328,138 @@ public:
 
 void  draw(_modo modo, float r, float g, float b, float grosor);
 
+float ancho;
+float alto;
+float largo;
+
+protected:
+_rectangulo rectangulo;
+};
+
+class _llama: _triangulos3D{
+public:
+       _llama();
+
+void  draw(_modo modo, float r, float g, float b, float grosor);
+
+float ancho;
+float alto;
+float largo;
+
+protected:
+_rectangulo rectangulo;
+};
+
+
+// Helice del globo
+class _helice: _triangulos3D{
+public:
+       _helice();
+void draw(_modo modo, float r, float g, float b, float grosor);
+
+float ancho;
+float alto;
+float largo;
+
+protected:
+_rectangulo rectangulo;
+};
+
+class _base_cañon: _triangulos3D{
+public: 
+       _base_cañon();
+void draw(_modo modo, float r, float g, float b, float grosor);
+
+float tam;
+
+protected: 
+_cubo cubo;
+};
+
+class _cañon: _triangulos3D{
+public: 
+       _cañon();
+void draw(_modo modo, float r, float g, float b, float grosor);
+
 float radio;
 float alto;
 float caras;
 
 protected:
 _cilindro cilindro;
-
+_base_cañon base;
 };
 
-// class _cesta:_triangulos3D{
-// public:
-//        _cesta();
+class _suelo: _triangulos3D{
+public:
+       _suelo();
 
-// void  draw(_modo modo, float r, float g, float b, float grosor);
+void  draw(_modo modo, float r, float g, float b, float grosor);
 
-// float tam;
+float ancho;
+float alto;
+float largo;
 
-// protected:
-// _cubo *cubo;
-// };
+protected:
+_rectangulo rectangulo;
+};
 
+class _soporteGlobo: _triangulos3D{
+public:
+       _soporteGlobo();
+void  draw(_modo modo, float r, float g, float b, float grosor);
+
+float ancho;
+float alto;
+float largo;
+
+protected:
+       _rectangulo rectangulo;
+};
+
+class _nube: _triangulos3D{
+public:
+       _nube();
+void  draw(_modo modo, float r, float g, float b, float grosor);
+
+float radio;
+float latitud;
+float longitud;
+
+
+protected:
+_esfera esfera_izquierda;
+_esfera esfera_medio;
+_esfera esfera_derecha;
+};
+
+// Globo completo
 class _globoCompleto:_triangulos3D{
 public:
        _globoCompleto();
 void  draw(_modo modo, float r, float g, float b, float grosor);
 
+float giro_helice_izquierda;
+float giro_helice_derecha;
+float giro_canion_izquierda;
+float giro_canion_derecha;
+float mov_posicion_nube;
+float mov_posicion_globo;
+
 protected:
 _globo globo;
 _cesta cesta;
 _soporteHelice soporte;
-_soporteHelice llama;       // He usado la misma clase que soporteHelice ya que simula donde se pone la llama del globo
+_llama llama;       // He usado la misma clase que soporteHelice ya que simula donde se pone la llama del globo
+_helice helice_derecha;
+_helice helice_izquierda;
+// _base_cañon base_izquierda;
+// _base_cañon base_derecha;
+_cañon cañon_izquierda;
+_cañon cañon_derecha;
+_suelo suelo;
+_soporteGlobo soporteDerecha;
+_soporteGlobo soporteIzquierda;
+_nube nube;
 };
+

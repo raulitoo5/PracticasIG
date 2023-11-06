@@ -7,6 +7,7 @@
 #include <time.h> 
 
 
+
 //*************************************************************************
 // _puntos3D
 //*************************************************************************
@@ -93,7 +94,6 @@ for (i=0;i<caras.size();i++){
 	glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
 	}
 glEnd();
-
 }
 
 //*************************************************************************
@@ -147,6 +147,116 @@ for (i=0;i<n_c;i++)
   }
 }
 
+void _triangulos3D::color_marron(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+  if(i%2==0){
+    colores_caras[i].r=1;
+    colores_caras[i].g=1.5;
+    colores_caras[i].b=0.5;
+  } else{
+    colores_caras[i].r=2;
+    colores_caras[i].g=2;
+    colores_caras[i].b=0.3;
+  }
+}
+
+void _triangulos3D::color_azul(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+    if(i%2 == 0){
+      colores_caras[i].r=0;
+      colores_caras[i].g=0;
+      colores_caras[i].b=1;
+    } else {
+      colores_caras[i].r=0;
+      colores_caras[i].g=0;
+      colores_caras[i].b=0.5;
+    }
+  }
+
+void _triangulos3D::color_negro(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+  if(i%2 == 0){
+    colores_caras[i].r=0;
+    colores_caras[i].g=0;
+    colores_caras[i].b=0;
+  } else{
+    colores_caras[i].r=0.3;
+    colores_caras[i].g=0.3;
+    colores_caras[i].b=0.3;
+  }
+}
+
+
+void _triangulos3D::color_amarillo(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+  if(i%2 == 0){
+    colores_caras[i].r=2;
+    colores_caras[i].g=0;
+    colores_caras[i].b=0;
+  } else{
+    colores_caras[i].r=2;
+    colores_caras[i].g=2;
+    colores_caras[i].b=0;
+  }
+}
+
+void _triangulos3D::color_rojo(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+    {colores_caras[i].r=255;
+    colores_caras[i].g=0;
+    colores_caras[i].b=0;
+    }
+}
+
+void _triangulos3D::color_verde(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+  if(i%2 == 0){
+    colores_caras[i].r=0;
+    colores_caras[i].g=1;
+    colores_caras[i].b=0;
+  } else{
+    colores_caras[i].r=0;
+    colores_caras[i].g=0.5;
+    colores_caras[i].b=0;
+  }
+
+}
+
+void _triangulos3D::color_azul_nube(){
+  int i, n_c;
+  n_c=caras.size();
+  colores_caras.resize(n_c);
+  for (i=0;i<n_c;i++)  
+  if(i%2 == 0){
+    colores_caras[i].r=0;
+    colores_caras[i].g=0;
+    colores_caras[i].b=1;
+  } else{
+    colores_caras[i].r=0;
+    colores_caras[i].g=0;
+    colores_caras[i].b=0.9;
+  }
+
+}
+
 //*************************************************************************
 
 void _triangulos3D::colors_chess(float r1, float g1, float b1, float r2, float g2, float b2)
@@ -177,7 +287,7 @@ for (i=0;i<n_c;i++)
 // clase cubo
 //*************************************************************************
 
-_cubo::_cubo(float tam)
+_cubo::_cubo(float tam, string color)
 {
 //vertices
 vertices.resize(8);
@@ -206,9 +316,13 @@ caras[10]._0=0;caras[10]._1=1;caras[10]._2=4;
 caras[11]._0=1;caras[11]._1=5;caras[11]._2=4; 
 
 //colores de las caras
-colors_random();
+if(color=="azul")
+  color_azul();
+else if(color=="negro")
+  color_negro();
+else 
+  color_negro();
 }
-
 
 //*************************************************************************
 // clase piramide
@@ -297,7 +411,7 @@ _rotacion::_rotacion()
 
 
 void _rotacion::parametros(vector<_vertex3f> perfil, int num, 
-                           int tapa_in, int tapa_su, int tipo)
+                           int tapa_in, int tapa_su, int tipo, string color)
 {
 int i,j;
 _vertex3f vertice_aux;
@@ -390,7 +504,18 @@ if (tapa_su==1)
 }
 
 //colores de las caras
-colors_random();
+if(color == "azul"){
+  color_azul();
+} else if(color == "negro"){
+  color_negro();
+} else if(color == "marron"){
+  color_marron();
+} else if(color == "rojo"){
+  color_rojo(); 
+} else if(color=="azul nube"){
+  color_azul_nube();
+} else
+  colors_random();
 }
 
 
@@ -444,7 +569,7 @@ colors_random();
 // objeto cilindro (caso especial de rotacion)
 //************************************************************************
 
-_cilindro::_cilindro(float radio, float altura, int num,int tapa_in, int tapa_su)
+_cilindro::_cilindro(float radio, float altura, int num,int tapa_in, int tapa_su, string color)
 {
 vector<_vertex3f> perfil;
 _vertex3f aux;
@@ -456,14 +581,14 @@ perfil.push_back(aux);
 // for(int i = 0; i<perfil.size(); i++){
 //   cout << "el punto x es: " << perfil[i].x << " y el punto y: " << perfil[i].y << endl;
 // }
-parametros(perfil,num,tapa_su,tapa_in,0);
+parametros(perfil,num,tapa_su,tapa_in,0, color);
 }
 
 //************************************************************************
 // objeto cono (caso especial de rotacion)
 //************************************************************************
 
-_cono::_cono(float radio, float altura, int num)
+_cono::_cono(float radio, float altura, int num, string color)
 {
 vector<_vertex3f> perfil;
 _vertex3f aux;
@@ -472,14 +597,14 @@ aux.x=radio; aux.y=0; aux.z=0.0;
 perfil.push_back(aux);
 aux.x=0.0; aux.y=altura; aux.z=0.0;
 perfil.push_back(aux);
-parametros(perfil,num,1,1,2);
+parametros(perfil,num,1,1,2, color);
 }
 
 //************************************************************************
 // objeto esfera (caso especial de rotacion)
 //************************************************************************
 
-_esfera::_esfera(float radio, int latitud, int longitud)
+_esfera::_esfera(float radio, int latitud, int longitud, string color)
 {
 vector<_vertex3f> perfil;
 _vertex3f aux;
@@ -490,7 +615,7 @@ for (i=1;i<latitud;i++)
    aux.z=0.0;
    perfil.push_back(aux);
   }
-parametros(perfil,longitud,1,1,1);
+parametros(perfil,longitud,1,1,1,color);
 }
 
 
@@ -713,27 +838,82 @@ pala.draw(modo, r, g, b, grosor);
 glPopMatrix();
 };
 
+/*********************************** RECTANGULO ************************/
+_rectangulo::_rectangulo(float ancho, float al, float largo, string color){
+
+//vertices
+vertices.resize(8);
+vertices[0].x=0;vertices[0].y=0;vertices[0].z=ancho;
+vertices[1].x=largo;vertices[1].y=0;vertices[1].z=ancho;
+vertices[2].x=largo;vertices[2].y=0;vertices[2].z=0;
+vertices[3].x=0;vertices[3].y=0;vertices[3].z=0;
+vertices[4].x=0;vertices[4].y=al;vertices[4].z=ancho;
+vertices[5].x=0;vertices[5].y=al;vertices[5].z=0;
+vertices[6].x=largo;vertices[6].y=al;vertices[6].z=0;
+vertices[7].x=largo;vertices[7].y=al;vertices[7].z=ancho;
+
+// triangulos
+caras.resize(12);
+caras[0]._0=0;caras[0]._1=1;caras[0]._2=2;	// vertices 1-2-3
+caras[1]._0=0;caras[1]._1=2;caras[1]._2=3;	// vertices 1-3-4
+caras[2]._0=0;caras[2]._1=1;caras[2]._2=4;	// vertices 1-2-5
+caras[3]._0=1;caras[3]._1=4;caras[3]._2=7;	// vertices 2-5-8
+caras[4]._0=1;caras[4]._1=2;caras[4]._2=6;	// vertices 2-3-7
+caras[5]._0=1;caras[5]._1=6;caras[5]._2=7;	// vertices 2-7-8
+caras[6]._0=4;caras[6]._1=6;caras[6]._2=7;	// vertices 5-7-8
+caras[7]._0=0;caras[7]._1=4;caras[7]._2=5;	// vertices 1-5-6
+caras[8]._0=0;caras[8]._1=3;caras[8]._2=5;	// vertices 1-4-6
+caras[9]._0=2;caras[9]._1=5;caras[9]._2=6;	// vertices 3-6-7
+caras[10]._0=5;caras[10]._1=2;caras[10]._2=3;	// vertices 3-4-6
+caras[11]._0=4;caras[11]._1=5;caras[11]._2=6;	// vertices 5-6-7
+
+// colores triangulos
+colores_caras.resize(12);
+colores_caras[0]._0=1.0;colores_caras[0]._1=0;colores_caras[0]._2=0;
+colores_caras[1]._0=0.1;colores_caras[1]._1=1;colores_caras[1]._2=0;
+colores_caras[2]._0=1.0;colores_caras[2]._1=0;colores_caras[2]._2=1;
+colores_caras[3]._0=0.9;colores_caras[3]._1=0;colores_caras[3]._2=0;
+colores_caras[4]._0=0.8;colores_caras[4]._1=1;colores_caras[4]._2=0;
+colores_caras[5]._0=0.7;colores_caras[5]._1=0;colores_caras[5]._2=1;
+colores_caras[6]._0=0.6;colores_caras[6]._1=1;colores_caras[6]._2=1;
+colores_caras[7]._0=0.5;colores_caras[7]._1=1;colores_caras[7]._2=1;
+colores_caras[8]._0=0.4;colores_caras[8]._1=0;colores_caras[8]._2=0;
+colores_caras[9]._0=0.3;colores_caras[9]._1=0;colores_caras[9]._2=0;
+colores_caras[10]._0=0.2;colores_caras[10]._1=1;colores_caras[10]._2=0;
+colores_caras[11]._0=0;colores_caras[11]._1=0;colores_caras[11]._2=1;
+
+if(color == "negro"){
+  color_negro();
+} else if(color == "amarillo"){
+  color_amarillo();
+} else if(color=="verde")
+  color_verde();
+else
+  color_negro();
+}
+
+/*------------------------------ GLOBO ---------------------------------------------*/
 _globo::_globo(){
-  radio=2.0;
+  radio=1.5;
   latitud=20;
   longitud=20;
 
-  esfera = _esfera(radio,latitud,longitud);
-  // esfera= new _esfera(radio,latitud,longitud);
+  esfera = _esfera(radio,latitud,longitud, "azul");
 }
 
 void _globo::draw(_modo modo, float r, float g, float b, float grosor){
   glPushMatrix();
-  glTranslatef(0.0,radio*2,0.0);
+  glTranslatef(0.0,radio*3,0.0);
   esfera.draw(modo, r, g, b, grosor);
   glPopMatrix();
 }
 
+/*---------------------- CESTA ----------------------------------------------*/
 _cesta::_cesta(){
   radio = 1.5;
   alto = 2.0;
   caras = 20;
-  cilindro = _cilindro(radio,alto,caras,0,1);
+  cilindro = _cilindro(radio,alto,caras,0,1, "marron");
 }
 
 void _cesta::draw(_modo modo, float r, float g, float b, float grosor){
@@ -742,87 +922,214 @@ void _cesta::draw(_modo modo, float r, float g, float b, float grosor){
   glPopMatrix();
 }
 
+
+/*--------------------- SOPORTE HELICE ----------------------------------------*/
 _soporteHelice::_soporteHelice(){
-  radio = 0.5;
-  alto = 0.5;
-  caras = 20;
-  cilindro = _cilindro(radio,alto,caras,1,1);
+  ancho = 0.4;
+  alto = 1;
+  largo = 0.4;
+
+  rectangulo = _rectangulo(ancho, alto, largo, "negro");
 }
 
 void _soporteHelice::draw(_modo modo, float r, float g, float b, float grosor){
   glPushMatrix();
+  rectangulo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
+_llama::_llama(){
+  ancho = 0.4;
+  alto = 1;
+  largo = 0.4;
+
+  rectangulo = _rectangulo(ancho, alto, largo, "amarillo");
+}
+
+void _llama::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  rectangulo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
+_helice::_helice(){
+  ancho = 0.4;
+  alto = 1;
+  largo = 0.2;
+
+  rectangulo = _rectangulo(ancho, alto, largo);
+}
+
+void _helice::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  rectangulo.draw(modo, r, g, b, grosor);
+  glPopMatrix();
+}
+
+_base_cañon::_base_cañon(){
+  tam = 0.3;
+
+  cubo = _cubo(tam, "negro");
+}
+
+void _base_cañon::draw(_modo modo, float r, float g, float b, float grosor){
+
+  glPushMatrix();
+  cubo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
+_cañon::_cañon(){
+  radio = 0.2;
+  alto = 0.2;
+  caras = 20;
+
+  cilindro=_cilindro(radio,alto,caras);
+}
+
+void _cañon::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  base.draw(modo,r,g,b,grosor);
+  glRotatef(90,1,0,0);
+  glRotatef(90,0,0,1);
+  glTranslatef(0,base.tam,0);
   cilindro.draw(modo,r,g,b,grosor);
   glPopMatrix();
 }
 
-_globoCompleto::_globoCompleto(){
+_suelo::_suelo(){
+  // Lo que mide en el eje z
+  ancho = 15;
+  // Lo que mide en el eje y
+  alto = 0.02;
+  // Lo que mide en el eje x
+  largo = 15;
 
+  rectangulo = _rectangulo(ancho, alto, largo, "verde");
+}
+
+void _suelo::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  glTranslatef(-largo/2,-4,-ancho/2);
+  rectangulo.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
+_soporteGlobo::_soporteGlobo(){
+  ancho=0.05;
+  alto=0.05;
+  largo=3.5;
+
+  rectangulo = _rectangulo(ancho,alto,largo);
+}
+
+void _soporteGlobo::draw(_modo modo,float r,float g,float b, float grosor){
+  glPushMatrix();
+  glRotatef(90,0,0,1);
+  glTranslatef(0,-alto/2,-ancho/2);
+  rectangulo.draw(modo,r,g,b,grosor);  
+  glPopMatrix();
+}
+
+_nube::_nube(){
+  radio=1;
+  latitud=20;
+  longitud=20;
+
+  esfera_izquierda = _esfera(radio,latitud,longitud, "azul nube");
+  esfera_derecha = _esfera(radio,latitud,longitud, "azul nube");
+  esfera_medio = _esfera(radio,latitud,longitud, "azul nube");
+}
+
+void _nube::draw(_modo modo, float r, float g, float b, float grosor){
+  glPushMatrix();
+  glTranslatef(-6,7,0);
+  esfera_medio.draw(modo,r,g,b,grosor);
+  glTranslatef(-radio,0,radio/4);
+  esfera_izquierda.draw(modo,r,g,b,grosor);
+  glTranslatef(radio*2,0,0);
+  esfera_derecha.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+}
+
+_globoCompleto::_globoCompleto(){
+giro_helice_izquierda=0.0;
+giro_helice_derecha=0.0;
+giro_canion_izquierda=0.0;
+giro_canion_derecha=0.0;
+mov_posicion_nube=0.0;
+mov_posicion_globo=0.0;
 }
 
 void _globoCompleto::draw(_modo modo, float r, float g, float b, float grosor){
   glPushMatrix();
 
+  nube.draw(modo,r,g,b,grosor);
+
+  suelo.draw(modo,r,g,b,grosor);
+
+  glTranslatef(0,mov_posicion_globo,0);
   cesta.draw(modo,r,g,b,grosor);
   
   globo.draw(modo,r,g,b,grosor);
 
-  glTranslatef(0.0,globo.radio,0.0);
+  glPushMatrix();
+  glTranslatef(cesta.radio,cesta.alto/2,0);
+  soporteDerecha.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(-cesta.radio,cesta.alto/2,0);
+  soporteIzquierda.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(cesta.radio,0,0);
+  glRotatef(180,0,0,1);
+  // glRotatef(giro_canion_derecha,0,1,0);
+  cañon_derecha.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(-cesta.radio,0,0);
+  cañon_izquierda.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  // glPushMatrix();
+  // glTranslatef(cesta.radio+base_derecha.tam-0.1, 0, 0);
+  // glRotatef(giro_canion_derecha,0,1,0);
+  // base_derecha.draw(modo,r,g,b,grosor);
+  // glPopMatrix();
+
+  // glPushMatrix();
+  // glTranslatef(-cesta.radio-base_izquierda.tam+0.1, 0, 0);
+  // base_izquierda.draw(modo,r,g,b,grosor);
+  // glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(-soporte.ancho/2,(globo.radio*4+(soporte.alto-helice_izquierda.largo)),-soporte.ancho/2);   // AL transladar hago soporte.radio*3 ya que luego escalo el soporte *3 en el eje x 
+  glRotatef(90,0,0,1);
+  helice_izquierda.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(soporte.ancho/2+soporte.alto,(globo.radio*4+(soporte.alto-helice_derecha.largo)),-soporte.ancho/2);   // AL transladar hago soporte.radio*3 ya que luego escalo el soporte *3 en el eje x 
+  glRotatef(90,0,0,1);
+  helice_derecha.draw(modo,r,g,b,grosor);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(-soporte.ancho/2,globo.radio*2-soporte.alto/4,-soporte.ancho/2);
   llama.draw(modo,r,g,b,grosor);
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(0.0,globo.radio*3,0.0);
-  glScalef(1.0,3.0,1.0);
-  glTranslatef(0.0,(soporte.alto/2),0.0);
+  // Tengo que moverlo en el eje x y en el eje z ya que el rectangulo de la forma que lo dibujo no está en mitad de los ejes y lo tengo que colocar
+  glTranslatef(-soporte.largo/2,globo.radio*4,-soporte.ancho/2);
   soporte.draw(modo,r,g,b,grosor);
 
   glPopMatrix();
 }
-
-
-
-
-// _respaldo::_respaldo(){
-//   ancho=1.0;
-//   alto=1.5;
-//   fondo=0.5;
-// }
-
-// void _respaldo::draw(_modo modo, float r, float g, float b, float grosor){
-//   glPushMatrix(); // Esta función sirve para que las transformaciones posteriores solo se realicen al cubo 
-//   glScalef(ancho, alto, fondo);
-//   glTranslatef(0.0,alto/2,0.0);
-//   cubo.draw(modo,r,g,b, grosor);
-//   glPopMatrix();  // Esto hace que la matriz de transformación se ponga como de cero
-// }
-
-// void _respaldo::draw_asiento(_modo modo, float r, float g, float b, float grosor){
-//   glPushMatrix();
-//   glScalef(ancho,alto,fondo);
-//   cubo.draw(modo,r,g,b, grosor);
-//   glPopMatrix();
-// };
-
-// _silla::_silla(){
-
-// }
-
-
-
-// void _silla::draw(_modo modo, float r, float g, float b, float grosor){
-// glPushMatrix();
-
-// respaldo.draw(modo, r, g, b, grosor);
-// glRotatef(90,1,0,0);
-// glTranslatef(0.0,(respaldo.alto/2-respaldo.fondo/2),0.0);
-
-// asiento.draw_asiento(modo, r, g, b, grosor);
-// glPopMatrix();
-
-//reposaBrazos.draw(modo,r, g, b, grosor);
-
-
-
 
 
 
